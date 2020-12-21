@@ -1,7 +1,7 @@
 # initialising required libraries
 import os
 import csv
-import math
+from collections import OrderedDict
 county= {}
 name = {}
 # function that returns the key corresponding to the value in a dictionary
@@ -9,18 +9,6 @@ def get_key(my_dict,val):
     for key, value in my_dict.items():
          if val == value:
             return key
-# function to truncate decimals upto 3 places
-def truncate(number, decimals=0):
-
-    if not isinstance(decimals, int):
-        raise TypeError("decimal places must be an integer.")
-    elif decimals < 0:
-        raise ValueError("decimal places has to be 0 or more.")
-    elif decimals == 0:
-        return math.trunc(number)
-
-    factor = 10.0 ** decimals
-    return math.trunc(number * factor) / factor
  
 # opening the csv resource file
 csv_path = os.path.join('..','PyPoll', 'Homework_03-Python_PyPoll_Resources_election_data.csv')
@@ -62,7 +50,7 @@ print('--------------------------')
 print(f'Total Votes: {total}')
 print('--------------------------')
 
-
+count = OrderedDict(sorted(count.items(), reverse = True, key=lambda x: x[1])) # sorting the dictionary on descending value of votes
 for cname, votes in count.items(): 
    percent = float((votes/total)*100) # percentage votes per candidate
    print(f'{cname} : {round(percent)}% ({votes})')
